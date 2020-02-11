@@ -45,7 +45,7 @@
 	<h1>Type anything. This tracks time between keystrokes.</h1>
 	<h2>Resets after 2 sec inactivity</h2>
 	<div id="display">
-	
+		You pressed: <br>
 	</div>
 </main>
 <script>
@@ -88,9 +88,9 @@ var press = function() {
 
 var protocol = function(key, pressedBefore) {
 	if(!pressedBefore) {
-		display.innerHTML += 'pressed: ' + key.key + ' first.<br>';	
+		display.innerHTML += '<b>' + key.key + '</b> first.<br>';	
 	} else {
-		display.innerHTML += 'pressed: ' + key.key + ' after ' + key.diff + ' ms. ('+ key.totalDiff +' ms total)<br>';	
+		display.innerHTML += '<b>' + key.key + '</b> after ' + key.diff + ' ms ('+ key.totalDiff +' ms total)<br>';	
 	}
 }
 	
