@@ -1,0 +1,101 @@
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background: #333;
+            font-family: monospace;
+			color: #eee;
+        }
+
+		
+		h1 {
+			text-align: center;
+			font-size: 18px;
+		}
+		
+		h2 {
+			text-align: center;
+			font-size: 14px;
+		}
+		
+		main {
+			margin-top: 100px;
+			width: 500px;
+			margin: 0 auto;
+			
+			
+		}
+
+
+        #display {
+		
+			margin-top: 100px;
+        }
+
+    </style>
+</head>
+<body>
+<main>
+	<h1>Type anything. This tracks time between keystrokes.</h1>
+	<h2>Resets after 2 sec inactivity</h2>
+	<div id="display">
+	
+	</div>
+</main>
+<script>
+var display = document.getElementById('display');
+var dateBefore = null;
+var totalDiff = 0;
+var pressed = false;
+var reset = null;
+
+
+var press = function() {
+	clearTimeout(reset);
+
+	const keyName = event.key;
+
+	var date = new Date();
+	var diff = 0;
+	
+	if(pressed) {
+		diff = date - dateBefore;
+		totalDiff += diff;
+	}
+	
+	protocol({
+		key: keyName,
+		diff: diff,
+		totalDiff: totalDiff
+	}, pressed);
+	
+	
+	dateBefore = date;
+	pressed = true;
+	
+	reset = window.setTimeout(function() {
+		dateBefore = null;
+		totalDiff = 0;
+		pressed = false;
+	}, 2000);
+}
+
+var protocol = function(key, pressedBefore) {
+	if(!pressedBefore) {
+		display.innerHTML += 'pressed: ' + key.key + ' first.<br>';	
+	} else {
+		display.innerHTML += 'pressed: ' + key.key + ' after ' + key.diff + ' ms. ('+ key.totalDiff +' ms total)<br>';	
+	}
+}
+	
+
+document.addEventListener('keydown', press);
+</script>
+</body>
+</html>
